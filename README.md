@@ -2,7 +2,7 @@
 
 **GeForce Eternity** is an unofficial, community-driven desktop client for NVIDIA GeForce NOW. Built with Electron, it brings a native desktop experience to Windows, macOS, and Linux, along with extras like Discord Rich Presence and other quality-of-life improvements.
 
-## **Screenshots**
+## 📸 **Screenshots**
 
 ![Screenshot](src/assets/resources/screenshots/1.jpg)
 <p align="center">
@@ -66,3 +66,4 @@ MIT License. See [LICENSE](LICENSE) file for details.
 - ☕ **Support Development**: [Ko-fi](https://ko-fi.com/securevoid)
 
 - 💭 **Discussions**: Use GitHub Discussions for questions and ideas
+
