@@ -62,6 +62,7 @@ MIT License. See [LICENSE](LICENSE) file for details.
 
 ## 📫 Support
 
-- 🐞 **Report Bugs**: [GitHub Issues](https://github.com/securevoid/BetterGN/issues)
+- 🐞 **Report Bugs**: [GitHub Issues](https://github.com/securevoid/GeForce-Eternity/issues)
 - ☕ **Support Development**: [Ko-fi](https://ko-fi.com/securevoid)
+
 - 💭 **Discussions**: Use GitHub Discussions for questions and ideas
