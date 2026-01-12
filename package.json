@@ -1,0 +1,60 @@
+{
+  "name": "geforce-eternity",
+  "version": "1.0.0",
+  "description": "Elevate your GeForce NOW experience!",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "discord-rpc": "^4.0.1"
+  },
+  "devDependencies": {
+    "electron": "^39.2.7",
+    "electron-builder": "^26.4.0"
+  },
+  "build": {
+    "appId": "com.securevoid.geforce-eternity",
+    "productName": "GeForce Eternity",
+    "directories": {
+      "buildResources": "src/assets/resources",
+      "output": "builds"
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "zip"
+      ],
+      "artifactName": "${productName}-windows-${version}-${arch}.${ext}",
+      "icon": "src/assets/resources/icon.ico"
+    },
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "artifactName": "${productName}-mac-${version}-${arch}.${ext}",
+      "icon": "src/assets/resources/icon.icns",
+      "category": "public.app-category.games"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb",
+        "rpm",
+        "zip"
+      ],
+      "artifactName": "${productName}-linux-${version}-${arch}.${ext}",
+      "icon": "src/assets/resources/icon_256.png",
+      "maintainer": "SecureVoid",
+      "category": "Game"
+    }
+  }
+}
