@@ -1,0 +1,130 @@
+name: Build & Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+
+    steps:
+      - name: 🧾 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: 🧹 Clear npm cache
+        run: npm cache clean --force
+
+      - name: 📦 Install dependencies
+        run: npm install
+
+      - name: 🔧 Install system dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y libarchive-tools libgtk-3-dev libnss3 libxss1 libasound2-plugins xvfb fakeroot dpkg rpm
+
+      - name: 🍷 Install Wine
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt update
+          sudo apt install -y wine32 wine64
+
+      - name: 🏗️ Build application for Linux & Windows
+        run: npm run dist -- --win --linux
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 📦 Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-builds
+          path: builds/
+
+  build-macos:
+    runs-on: macos-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: 🧾 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: 🧹 Clear npm cache
+        run: npm cache clean --force
+
+      - name: 📦 Install dependencies
+        run: npm install
+
+      - name: 🏗️ Build application for macOS
+        run: npm run dist -- --mac
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 📦 Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-builds
+          path: builds/
+
+  release:
+    needs: [build-linux, build-macos]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: 🧾 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 📥 Download Linux artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-builds
+          path: builds-linux/
+
+      - name: 📥 Download macOS artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: macos-builds
+          path: builds-macos/
+
+      - name: 🗂️ Organize artifacts
+        run: |
+          mkdir -p final-builds
+          cp builds-linux/* final-builds/ 2>/dev/null || true
+          cp builds-macos/* final-builds/ 2>/dev/null || true
+
+      - name: 📦 Upload release assets to GitHub
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "Release ${{ github.ref_name }}"
+          tag_name: ${{ github.ref_name }}
+          draft: true
+          prerelease: false
+          files: |
+            final-builds/*.AppImage
+            final-builds/*.deb
+            final-builds/*.rpm
+            final-builds/*.dmg
+            final-builds/*.exe
+            final-builds/*.zip
+          overwrite_files: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
