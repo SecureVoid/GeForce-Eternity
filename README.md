@@ -6,7 +6,7 @@
 
 ![Screenshot](src/assets/resources/screenshots/1.jpg)
 <p align="center">
-  <img src="src/assets/resources/screenshots/3.jpg" width="49%">
+  <img src="src/assets/resources/screenshots/0.jpg" width="49%">
   <img src="src/assets/resources/screenshots/2.jpg" width="49%">
 </p>
 
@@ -66,4 +66,5 @@ MIT License. See [LICENSE](LICENSE) file for details.
 - ☕ **Support Development**: [Ko-fi](https://ko-fi.com/securevoid)
 
 - 💭 **Discussions**: Use GitHub Discussions for questions and ideas
+
 
